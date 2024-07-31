@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_university_academic_season_form_1" model="ir.ui.view">
+        <field name="name">university.academic.season.form.1</field>
+        <field name="model">university.academic.season</field>
+        <field name="arch" type="xml">
+            <form string="Materias" >
+                <header />
+                <sheet>
+                    <group >
+                        <group >
+                            <field name="name" placeholder = "2023" />   
+                        </group>
+                        <group>
+                            <field name="season"/>
+                        </group>
+                    </group> 
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_university_academic_season_tree_1" model="ir.ui.view">
+        <field name="name">university.academic.season.tree.1</field>
+        <field name="model">university.academic.season</field>
+        <field name="arch" type="xml">
+            <tree string="Información personal" >
+                <field name="name" />
+                <field name="season"/>
+            </tree>
+        </field>
+    </record>
+   
+
+    <record id="action_university_academic_season_form_1" model="ir.actions.act_window">
+        <field name="name">Periodo Educativo</field>
+        <field name="res_model">university.academic.season</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_university_academic_season_tree_1')}), 
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_university_academic_season_form_1')})]" />
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+</odoo>

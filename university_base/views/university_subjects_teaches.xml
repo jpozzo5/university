@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_university_subjects_teachers_form_1" model="ir.ui.view">
+        <field name="name">university.subjects.teachers.form.1</field>
+        <field name="model">university.subjects.teachers</field>
+        <field name="arch" type="xml">
+            <form string="Asignar Materias" >
+                <header />
+                <sheet>
+                    <group >
+                        <field name="pearson_id" domain= "[('pearson_type','=','teacher')]"/>
+                        <field name="pearson_id_subject_id_rel" invisible ="1"/>
+                        <field name="subject_id" domain= "[('id','in',pearson_id_subject_id_rel)]"/>
+                        <field name="day" widget = "radio"/>
+                    </group> 
+                   <group >
+                        <group >
+                            <field name="from_time" widget='float_time'/>
+                        </group>
+                        <group>
+                            <field name="until_time" widget='float_time' />
+                        </group>
+                    </group>                                                
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_university_subjects_teachers_tree_1" model="ir.ui.view">
+        <field name="name">university.subjects.tree.1</field>
+        <field name="model">university.subjects.teachers</field>
+        <field name="arch" type="xml">
+            <tree string="Asignar Materias" >
+                <field name="pearson_id" />
+                <field name="subject_id" />
+                 <field name="day" />
+                <field name="from_time"  widget='float_time' />
+                <field name="until_time" widget='float_time'/>
+            </tree>
+        </field>
+    </record>
+   
+
+    <record id="action_university_subjects_teachers_form_1" model="ir.actions.act_window">
+        <field name="name">Asignar Materias</field>
+        <field name="res_model">university.subjects.teachers</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_university_subjects_teachers_tree_1')}), 
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_university_subjects_teachers_form_1')})]" />
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+</odoo>

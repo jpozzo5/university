@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_university_pearson_form_1" model="ir.ui.view">
+        <field name="name">university.pearson.form.1</field>
+        <field name="model">university.pearson</field>
+        <field name="arch" type="xml">
+            <form string="Perfil de usuario" >
+                <header>
+
+                </header>
+                <sheet>
+                    <field name="pearson_type" invisible = "1"/>
+                    <div class="oe_button_box" name="buttons"></div>
+                    <div class="oe_inline">
+                        <newline />
+                        <br />
+                        <div class="o_employee_avatar">
+                            <field name="photo" widget="image" attrs="{}" class="oe_avatar oe_left" style="max-width:100px;max-height:117px;"/>
+                        </div>
+                        <div class="oe_title">
+                  
+                                <h2>
+                                    <field name="name" placeholder="Nombre Completo" nolabel="1" required="1"/>
+                                </h2>
+                               
+                                <br />
+                                <field name="identify" placeholder="N° identificacion V- 00.000.00" nolabel="1"/>
+                                <br />
+                        </div>
+                    </div>
+
+
+                    <group  string="Carrera Academica" attrs = "{'invisible':[('pearson_type','!=','student')]}">
+                        <field 
+                                name="career" 
+                                widget="many2many_tags" 
+                                attrs = "{'required':[('pearson_type','=','student')]}"
+                        />      
+
+                        <field 
+                                name="dashboard_token" 
+                                invisible ="1"
+                                
+                        /> 
+                        <field 
+                                name="dashboard_token_url" 
+                                widget="url" 
+                                readonly ="1" 
+                        /> 
+                    </group>
+
+                    
+                  <group  string="Materias Academicas" attrs = "{'invisible':[('pearson_type','=','student')]}">
+                        <field 
+                            name="subjects_ids" 
+                            widget="many2many_tags" 
+                            attrs="{'required':[('pearson_type','!=','student')]}"
+                        />  
+                    </group> 
+                    
+                    <group string="Información Personal">
+                        <group >
+                            <field name="card_code" />
+                            <field name="birthdate" />
+                   
+                            <!-- <field name="school_id" placeholder="School" widget="selection" help="School of Student" attrs="{'readonly':['|',('state','in',['alumni','terminate']),('teachr_user_grp','=',True)]}"/> -->
+                        </group>
+                        <group>
+                            <field name="phone"  />
+                            <field name="email" placeholder="@gmail.com" String="Correo Electronico" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <label for="street" string="Dirección" />
+                            <div class="o_address_format">
+                                <field name="street" class="o_address_street" placeholder="Dirección completa..." />      
+                            </div>
+                        </group>
+                    </group> 
+
+                    <notebook>
+                        <page string="Horario" name="time_sheet" attrs="{'invisible': [('pearson_type', '!=', 'teacher')]}">
+                            <field name="time_sheet_ids" widget="section_and_note_one2many" mode="tree,form" readonly = "1">
+                                <tree string="Sales Order Lines" editable="bottom">
+                                    <field name="pearson_id" invisible="1"/>
+                                    <field name="subject_id" />
+                                    <field name="day" />
+                                    <field name="from_time" widget='float_time'/>    
+                                    <field name="until_time" widget='float_time' />  
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>   
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View 1 Of Student's Profiles -->
+    <record id="view_university_pearson_tree_1" model="ir.ui.view">
+        <field name="name">university.pearson.tree.1</field>
+        <field name="model">university.pearson</field>
+        <field name="arch" type="xml">
+            <tree string="Información personal" >
+                <field name="name" />
+                <field name="identify" />
+                <field name="card_code" />
+
+            </tree>
+        </field>
+    </record>
+   
+    <!-- Action Of Form, Tree & Kanban View Of Admission Register Information -->
+    <record id="action_pearson_student_form_1" model="ir.actions.act_window">
+        <field name="name">Registrar Estudiante</field>
+        <field name="res_model">university.pearson</field>
+        <field name="domain">[('pearson_type','=','student')]</field>
+        <field name="context">{"default_pearson_type": "student"}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_university_pearson_tree_1')}), 
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_university_pearson_form_1')})]" />
+        <!-- <field name="search_view_id" ref="view_student_student_search_2" /> -->
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_pearson_teacher_form_2" model="ir.actions.act_window">
+        <field name="name">Registrar Profesor</field>
+        <field name="res_model">university.pearson</field>
+        <field name="domain">[('pearson_type','=','teacher')]</field>
+        <field name="context">{"default_pearson_type": "teacher"}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_university_pearson_tree_1')}), 
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_university_pearson_form_1')})]
+        "/>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

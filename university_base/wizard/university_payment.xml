@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_university_payment_form_1" model="ir.ui.view">
+        <field name="name">university.payment.form.1</field>
+        <field name="model">university.payment</field>
+        <field name="arch" type="xml">
+            <form string="Contrato" >
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                    <newline />
+                    <br />
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group >
+                        <group>
+                            <field name="ref" required = "1" />
+                            <field name="contract_id" domain = "[('state','=','done')]"  attrs ="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="date"  attrs ="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="amount" />
+                            <field name="residual"/>
+                        </group>
+                    </group>        
+                <footer>
+					<div class="oe_left">
+                        <button name="action_validate" type="object" string="Confirmar" attrs = "{'invisible':[('state','!=','draft')]}" />
+						<button string="Cerrar" special="cancel" type="object"
+							class="oe_link" />
+					</div>
+				</footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

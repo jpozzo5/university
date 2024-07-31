@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_university_contract_form_1" model="ir.ui.view">
+        <field name="name">university.contract.form.1</field>
+        <field name="model">university.contract</field>
+        <field name="arch" type="xml">
+            <form string="Contrato" >
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_validate" type="object" string="Confirmar" attrs = "{'invisible':[('state','!=','draft')]}" />
+                    <button name="action_pay_document" type="object" string="Pagar" attrs = "{'invisible':[('state','in',['draft','payed'])]}" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="buttons"></div>
+                   
+                    <newline />
+                    <br />
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                
+
+                    <group >
+                        <group >
+       
+                            <field name="pearson_id" domain = "[('pearson_type','!=','teacher')]"  attrs ="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="date"  attrs ="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="season_id"   attrs ="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="pearson_id_career_rel" invisible ="1"/>
+                            <field name="career_id"   domain="[('id', 'in', pearson_id_career_rel)]"  attrs ="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Matriculas" name="line_contract">
+                            <field name="line_contract_ids" widget="section_and_note_one2many" mode="tree,form" attrs ="{'readonly':[('state','!=','draft')]}">
+                                <tree string="Lineas de contrato" editable="bottom">
+                                    <field name="contrac_id" invisible="1"/>
+                                    <field name="subject_id" domain="[('career_ids', 'in', parent.career_id)]"/>
+                                    <field name="pearson_id" domain="[
+                                        ('pearson_type', '=', 'teacher'),
+                                        ('subjects_ids', '=', subject_id),
+                                    ]"/>
+                                    <field name="time_sheet"  domain="[
+                                        ('pearson_id', '=', pearson_id),
+                                        ('subject_id', '=', subject_id),
+                                    ]" />    
+                                    <field name="amount"  />  
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="payment" string="Pagos" attrs ="{'invisible':[('state','=','draft')]}">
+                            <field name="payment_ids" widget="section_and_note_one2many" mode="tree,form" readonly ="1">
+                                <tree string="Lineas de pago" editable="bottom" >
+                                    <field name="ref" />
+                                    <field name="name" />
+                                    <field name="date"/>
+                                    <field name="amount"/>  
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook> 
+                    
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                        <div class="ml-4 p-1">
+                            <table class="" style="margin-right:40px;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="o_td_label">
+                                                <div class="o_field_widget o_readonly_modifier o_field_monetary">
+                                                    <span>Total. :</span>
+                                                </div>
+                                            </td>
+                                            <td class="o_td_label">
+                                                <field name="amount_total" />
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="o_td_label">
+                                                <div class="o_field_widget o_readonly_modifier o_field_monetary">
+                                                    <span>Total Pendiente. :</span>
+                                                </div>
+                                            </td>
+                                            <td class="o_td_label">
+                                                <span style="'font-size: 1.3em; font-weight: bold; white-space: nowrap;'" class="oe_subtotal_footer_separator">
+                                                    <field name="amount_total_residual" />
+                                                </span>
+                                                
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                        
+                        </div>
+
+
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View 1 Of Student's Profiles -->
+    <record id="view_university_contract_tree_1" model="ir.ui.view">
+        <field name="name">university.contract.tree.1</field>
+        <field name="model">university.contract</field>
+        <field name="arch" type="xml">
+            <tree string="Contratos" >
+                <field name="name" />
+                <field name="pearson_id" />
+                <field name="date" />
+            </tree>
+        </field>
+    </record>
+   
+    <record id="action_university_contract_form_1" model="ir.actions.act_window">
+        <field name="name">Contratos</field>
+        <field name="res_model">university.contract</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_university_contract_tree_1')}), 
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_university_contract_form_1')})]"/>
+
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

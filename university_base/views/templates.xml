@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="dashboard_student">
+        <t t-call="web.layout">
+            <t t-set="html_data" t-value="{'style': 'height: 100%;'}"/>
+            <t t-set="title">DASHBOARD</t>
+            <t t-call-assets="web.assets_common" t-js="true"/>
+            <t t-call-assets="web.assets_backend" t-js="true"/>
+            <t t-call-assets="web.assets_common" t-css="true"/>
+            <t t-call-assets="web.assets_backend" t-css="true"/>
+        
+            
+            
+            <div class="container py-5">
+        
+              <div class="card position-relative clearfix">
+                   <h1 class="text-center">¡HOLA ! <t t-esc="name"/></h1>
+
+                   
+                  <div class="container mt-2">
+                      <div class="row">
+                          <div class="col-lg-6 col-md-12"> 
+                              <label for="identify" class="form-label font-weight-bold"><strong>Identificacion :</strong></label>
+                              <span id="identify" t-esc="identify"/><br/>
+                              
+                              <label for="phone" class="form-label font-weight-bold"><strong>N° Telefónico :</strong></label>
+                              <span id="phone" t-esc="phone"/>
+                              <br/>
+                              
+                              <label for="card_code" class="form-label font-weight-bold"><strong>N° Carnet :</strong></label>
+                              <span id="card_code" t-esc="card_code"/>
+                            
+                          </div>
+                          <div class="col-lg-6 col-md-12">
+                              <label for="street" class="form-label font-weight-bold"><strong>Dirección :</strong></label>
+                              <span id="street" t-esc="street"/><br/>
+                              
+                              <label for="email" class="form-label font-weight-bold"><strong>Correo Electronico :</strong></label>
+                              <span id="email" t-esc="email"/><br/>
+                          </div>
+                  
+                      </div>
+                </div>
+                
+              </div>
+
+            </div>
+            
+            
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-4 col-md-12">
+                      <div class="tile block">
+                        <div style="cursor: pointer; background-color:#00C689;color:white;" class="tile-container d-flex justify-content-around align-items-center  position-relative w-100 h-auto my-3">
+                            <div style="color:black;" class="tile-container__icon-container bg-white  d-flex justify-content-center align-items-center">
+                                <i class="fa fa-tasks"/>
+                            </div>
+                            <div class="tile-container__status-container">
+                                <h2 class="status-container__title" style="color:white;">
+                                    <t t-esc="contracts_total"/>
+                                </h2>
+                                <div class="status-container__figures d-flex flex-wrap align-items-baseline">
+                                  <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1" style="color:white;">
+                                      Cantidad de Contratos
+                                  </h3>
+                                </div>
+                               
+                            </div>
+  
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="tile block">
+                        <div style="cursor: pointer; background-color:#00CED1;color:white;" class="tile-container d-flex justify-content-around align-items-center  position-relative w-100 h-auto my-3">
+                            <div style="color:black;" class="tile-container__icon-container bg-white  d-flex justify-content-center align-items-center">
+                                <i class="fa fa-money"/>
+                            </div>
+                            <div class="tile-container__status-container">
+                                <h2 class="status-container__title" style="color:white;">
+                                     Bs.<t t-esc="contracts_total_residual"/>
+                                    
+                                </h2>
+                                <div class="status-container__figures d-flex flex-wrap align-items-baseline">
+                                  <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1" style="color:white;">
+                                      Total Deuda
+                                  </h3>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="tile block">
+                        <div style="cursor: pointer; background-color:#FDA006;color:white;" class="tile-container d-flex justify-content-around align-items-center  position-relative w-100 h-auto my-3">
+                            <div style="color:black;" class="tile-container__icon-container bg-white  d-flex justify-content-center align-items-center">
+                                <i class="fa fa-usd"/>
+                            </div>
+                            <div class="tile-container__status-container">
+                                <h2 class="status-container__title" style="color:white;">
+                                     Bs.<t t-esc="totalContratsAmoun"/>
+                                    
+                                </h2>
+                                <div class="status-container__figures d-flex flex-wrap align-items-baseline">
+                                  <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1" style="color:white;">
+                                      Total En contratos
+                                  </h3>
+                                </div>
+                               
+                            </div>
+        
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            
+      
+
+            
+            <div class="card container py-5 mt-3">
+                <table class="o_list_table table table-sm table-hover">
+                    <thead>
+                        <tr>
+                          <th scope="col">N°Contrato</th>
+                          <th scope="col">Fecha</th>
+                          <th scope="col">Monto Total</th>
+                          <th scope="col">Deuda Pendiente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="contracts_ids" t-as="contracts">
+                          <th scope="row">
+                            <t t-esc="contracts.name"/>
+                          </th>
+                          <td>
+                              <t t-esc="contracts.date.strftime('%m/%d/%Y')"/>
+                          </td>
+                          <td>
+                              <t t-esc="contracts.amount_total"/>
+                          </td>
+                          <td>
+                              <t t-esc="contracts.amount_total_residual"/>
+                          </td>
+                        </tr>
+     
+                    </tbody>
+                </table>
+            </div>
+            
+            
+            
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <!-- MEnú Principal -->
+
+    <menuitem id="menu_ems" name="Gestión Universitaria" web_icon="university_base,static/description/icon.png" sequence="1"/>
+    
+    <!-- Menu para Adminicion Estudiantes y Profesores -->
+    <menuitem id="admission_register" name="Personal" parent="menu_ems" sequence="1" />
+    <menuitem 
+        id="menu_student_form_root" 
+        name="Estudiantes" 
+        parent="admission_register" 
+        sequence="1" 
+        groups="university_base.group_school_administration"
+        action= "action_pearson_student_form_1"
+        />
+    <menuitem 
+        id="menu_teacher_form_root" 
+        name="Profesores" 
+        parent="admission_register" 
+        sequence="2" 
+        groups="university_base.group_school_administration"
+        action= "action_pearson_teacher_form_2"
+    />
+
+
+     <!-- Menú para Adminsitracón -->
+    <menuitem id="adm_register" name="Administración" parent="menu_ems" sequence="2" />
+    <menuitem 
+        id="menu_contract_form_root" 
+        name="Contratos" 
+        parent="adm_register" 
+        sequence="1" 
+        groups="university_base.group_school_administration"
+        action= "action_university_contract_form_1"
+    />
+
+    <menuitem 
+        id="menu_subjects_teaches_form_root" 
+        name="Asignar materias" 
+        parent="adm_register" 
+        sequence="2" 
+        groups="university_base.group_school_administration"
+        action= "action_university_subjects_teachers_form_1"
+    />
+
+    <!-- Menu para la parte de configuración -->
+    <menuitem id="setting_register" name="Configuración" parent="menu_ems" sequence="3" />
+
+    <menuitem 
+        id="menu_career_form_root" 
+        name="Carreras Academicas" 
+        parent="setting_register" 
+        sequence="1" 
+        groups="university_base.group_school_administration"
+        action= "action_university_academic_career_form_1"
+    />
+
+    <menuitem 
+        id="menu_subjects_form_root" 
+        name="Materias" 
+        parent="setting_register" 
+        sequence="2" 
+        groups="university_base.group_school_administration"
+        action= "action_subjects_form_1"
+    />
+
+    <menuitem 
+        id="menu_university_academic_season_form_root" 
+        name="Periodo Escolar" 
+        parent="setting_register" 
+        sequence="3" 
+        groups="university_base.group_school_administration"
+        action= "action_university_academic_season_form_1"
+    />
+
+     
+</odoo>

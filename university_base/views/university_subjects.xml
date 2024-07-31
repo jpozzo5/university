@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_university_subjects_form_1" model="ir.ui.view">
+        <field name="name">university.subjects.form.1</field>
+        <field name="model">university.subjects</field>
+        <field name="arch" type="xml">
+            <form string="Materias" >
+                <header />
+                <sheet>
+                    <group >
+                        <group >
+                            <field name="name" />
+                        </group>
+                        <group>
+                            <field name="code"  />
+                        </group>
+                    </group> 
+                    <group name="career" string="Carreras Academicas">
+                        <field name="career_ids"  widget="many2many_tags" />
+                        <field name="num_season"/>
+                    </group>                                                
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_university_subjects_tree_1" model="ir.ui.view">
+        <field name="name">university.subjects.tree.1</field>
+        <field name="model">university.subjects</field>
+        <field name="arch" type="xml">
+            <tree string="Información personal" >
+                <field name="name" />
+                <field name="code" />
+                <field name="career_ids"  widget="many2many_tags" />
+                <field name="num_season"/>
+            </tree>
+        </field>
+    </record>
+   
+
+    <record id="action_subjects_form_1" model="ir.actions.act_window">
+        <field name="name">Materias</field>
+        <field name="res_model">university.subjects</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_university_subjects_tree_1')}), 
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_university_subjects_form_1')})]" />
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+</odoo>
